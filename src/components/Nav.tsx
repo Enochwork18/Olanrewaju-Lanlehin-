@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Camera } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { navLinks, sectionIds, personalInfo } from "@/data/data";
 import { useScrollActive } from "@/hooks/useScrollActive";
 import ScrollProgress from "./ScrollProgress";
@@ -94,6 +95,15 @@ export default function Nav() {
                     </li>
                   );
                 })}
+                <li>
+                  <Link
+                    href="/gallery"
+                    className="flex items-center gap-1.5 text-sm font-medium text-mid-grey hover:text-accent transition-colors"
+                  >
+                    <Camera size={14} />
+                    Gallery
+                  </Link>
+                </li>
               </ul>
 
               {mounted && (
@@ -163,6 +173,20 @@ export default function Nav() {
                     </motion.li>
                   );
                 })}
+                <motion.li
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
+                >
+                  <Link
+                    href="/gallery"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 w-full text-left px-6 py-3 text-sm font-medium text-mid-grey hover:text-near-black hover:bg-light-grey/50 transition-colors"
+                  >
+                    <Camera size={16} />
+                    Gallery
+                  </Link>
+                </motion.li>
               </ul>
             </motion.div>
           )}

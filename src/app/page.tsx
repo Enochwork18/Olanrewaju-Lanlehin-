@@ -7,8 +7,11 @@ import Skills from "@/components/Skills";
 import WorkExperience from "@/components/WorkExperience";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
+import { getGalleryImages } from "@/lib/gallery";
 
 export default function Home() {
+  const galleryImages = getGalleryImages();
+
   return (
     <main className="min-h-screen bg-bg-primary">
       <Nav />
@@ -18,7 +21,7 @@ export default function Home() {
       <Education />
       <Skills />
       <WorkExperience />
-      <Projects />
+      <Projects galleryImages={galleryImages} />
       <Contact />
     </main>
   );
