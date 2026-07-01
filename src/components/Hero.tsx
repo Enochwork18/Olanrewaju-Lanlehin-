@@ -18,9 +18,9 @@ export default function Hero() {
 
   return (
     <section
-      id="hero"
+      id="home"
       ref={ref}
-      className="relative min-h-screen flex items-center pt-16 px-4 md:px-8 lg:px-16 xl:px-24 overflow-hidden scroll-mt-20"
+      className="relative min-h-screen flex items-center pt-16 px-4 md:px-8 lg:px-16 xl:px-24 overflow-hidden"
     >
       <DecorativeAccents />
 

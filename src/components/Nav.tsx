@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -17,11 +17,17 @@ export default function Nav() {
 
   useEffect(() => setMounted(true), []);
 
-  const handleClick = useCallback((href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
     setMobileOpen(false);
-    const el = document.querySelector(href);
-    el?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
+
+    setTimeout(() => {
+      const target = document.getElementById(targetId);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 80);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -33,14 +39,18 @@ export default function Nav() {
 
   useEffect(() => {
     if (!mobileOpen) return;
-    const handleOutsideClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest("nav")) {
+    const handleClickOutside = (e: MouseEvent) => {
+      const menu = document.getElementById("mobile-menu");
+      const toggle = document.getElementById("hamburger-btn");
+      if (
+        menu && !menu.contains(e.target as Node) &&
+        toggle && !toggle.contains(e.target as Node)
+      ) {
         setMobileOpen(false);
       }
     };
-    document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [mobileOpen]);
 
   return (
@@ -50,7 +60,7 @@ export default function Nav() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 xl:px-24">
           <div className="flex items-center justify-between h-16">
             <button
-              onClick={() => handleClick("#hero")}
+              onClick={(e) => handleNavClick(e, "home")}
               className="text-near-black font-serif font-bold text-lg tracking-tight hover:text-accent transition-colors"
             >
               {personalInfo.name.split(" ")[0]}
@@ -59,28 +69,31 @@ export default function Nav() {
 
             <div className="flex items-center gap-4">
               <ul className="hidden md:flex items-center gap-8">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <button
-                      onClick={() => handleClick(link.href)}
-                      className={cn(
-                        "text-sm font-medium transition-all duration-200 relative pb-1",
-                        activeId === link.href.replace("#", "")
-                          ? "text-accent"
-                          : "text-mid-grey hover:text-near-black"
-                      )}
-                    >
-                      {link.label}
-                      {activeId === link.href.replace("#", "") && (
-                        <motion.div
-                          layoutId="nav-underline"
-                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        />
-                      )}
-                    </button>
-                  </li>
-                ))}
+                {navLinks.map((link) => {
+                  const id = link.href.replace("#", "");
+                  return (
+                    <li key={link.href}>
+                      <button
+                        onClick={(e) => handleNavClick(e, id)}
+                        className={cn(
+                          "text-sm font-medium transition-all duration-200 relative pb-1",
+                          activeId === id
+                            ? "text-accent"
+                            : "text-mid-grey hover:text-near-black"
+                        )}
+                      >
+                        {link.label}
+                        {activeId === id && (
+                          <motion.div
+                            layoutId="nav-underline"
+                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-accent"
+                            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                          />
+                        )}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
 
               {mounted && (
@@ -106,6 +119,7 @@ export default function Nav() {
               )}
 
               <button
+                id="hamburger-btn"
                 className="md:hidden p-2 text-near-black hover:text-accent transition-colors"
                 onClick={() => setMobileOpen(!mobileOpen)}
                 aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -119,32 +133,36 @@ export default function Nav() {
         <AnimatePresence>
           {mobileOpen && (
             <motion.div
+              id="mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden border-t border-light-grey bg-bg-primary overflow-hidden"
             >
               <ul className="flex flex-col py-4">
-                {navLinks.map((link, i) => (
-                  <motion.li
-                    key={link.href}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                  >
-                    <button
-                      onClick={() => handleClick(link.href)}
-                      className={cn(
-                        "w-full text-left px-6 py-3 text-sm font-medium transition-colors",
-                        activeId === link.href.replace("#", "")
-                          ? "text-accent bg-accent/5"
-                          : "text-mid-grey hover:text-near-black hover:bg-light-grey/50"
-                      )}
+                {navLinks.map((link, i) => {
+                  const id = link.href.replace("#", "");
+                  return (
+                    <motion.li
+                      key={link.href}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
                     >
-                      {link.label}
-                    </button>
-                  </motion.li>
-                ))}
+                      <button
+                        onClick={(e) => handleNavClick(e, id)}
+                        className={cn(
+                          "w-full text-left px-6 py-3 text-sm font-medium transition-colors",
+                          activeId === id
+                            ? "text-accent bg-accent/5"
+                            : "text-mid-grey hover:text-near-black hover:bg-light-grey/50"
+                        )}
+                      >
+                        {link.label}
+                      </button>
+                    </motion.li>
+                  );
+                })}
               </ul>
             </motion.div>
           )}

@@ -58,7 +58,7 @@ export const socialLinks = {
 };
 
 export const navLinks = [
-  { label: "Home", href: "#hero" },
+  { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Vision", href: "#vision" },
   { label: "Education", href: "#education" },
@@ -69,7 +69,7 @@ export const navLinks = [
 ];
 
 export const sectionIds = [
-  "hero",
+  "home",
   "about",
   "vision",
   "education",
