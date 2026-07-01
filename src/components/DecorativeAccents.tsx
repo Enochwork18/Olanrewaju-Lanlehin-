@@ -6,8 +6,8 @@ import { useRef } from "react";
 function PlusMark({ className }: { className?: string }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <line x1="12" y1="2" x2="12" y2="22" stroke="#C8203F" strokeWidth="2" />
-      <line x1="2" y1="12" x2="22" y2="12" stroke="#C8203F" strokeWidth="2" />
+      <line x1="12" y1="2" x2="12" y2="22" stroke="var(--accent)" strokeWidth="2" />
+      <line x1="2" y1="12" x2="22" y2="12" stroke="var(--accent)" strokeWidth="2" />
     </svg>
   );
 }
@@ -15,7 +15,7 @@ function PlusMark({ className }: { className?: string }) {
 function HollowCircle({ className }: { className?: string }) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-      <circle cx="10" cy="10" r="8" stroke="#C8203F" strokeWidth="1.5" />
+      <circle cx="10" cy="10" r="8" stroke="var(--accent)" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -23,7 +23,7 @@ function HollowCircle({ className }: { className?: string }) {
 function ChevronStack({ className }: { className?: string }) {
   return (
     <svg width="16" height="32" viewBox="0 0 16 32" fill="none" aria-hidden="true">
-      <path d="M2 2l12 14-12 14" stroke="#C8203F" strokeWidth="1.5" />
+      <path d="M2 2l12 14-12 14" stroke="var(--accent)" strokeWidth="1.5" />
     </svg>
   );
 }
@@ -31,9 +31,9 @@ function ChevronStack({ className }: { className?: string }) {
 function DiagonalHatch({ className }: { className?: string }) {
   return (
     <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
-      <line x1="0" y1="40" x2="40" y2="0" stroke="#C8203F" strokeWidth="1" />
-      <line x1="10" y1="40" x2="40" y2="10" stroke="#C8203F" strokeWidth="1" />
-      <line x1="0" y1="30" x2="30" y2="0" stroke="#C8203F" strokeWidth="1" />
+      <line x1="0" y1="40" x2="40" y2="0" stroke="var(--accent)" strokeWidth="1" />
+      <line x1="10" y1="40" x2="40" y2="10" stroke="var(--accent)" strokeWidth="1" />
+      <line x1="0" y1="30" x2="30" y2="0" stroke="var(--accent)" strokeWidth="1" />
     </svg>
   );
 }

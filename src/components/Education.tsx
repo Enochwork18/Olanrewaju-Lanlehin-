@@ -12,7 +12,7 @@ export default function Education() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="education" ref={ref} className="relative px-4 md:px-8 lg:px-16 xl:px-24 py-16 md:py-24">
+    <section id="education" ref={ref} className="relative px-4 md:px-8 lg:px-16 xl:px-24 py-16 md:py-24 scroll-mt-20">
       <DecorativeAccents />
       <div className="max-w-7xl mx-auto">
         <motion.h2
@@ -21,7 +21,7 @@ export default function Education() {
           transition={{ duration: 0.5 }}
           className="font-serif text-3xl md:text-4xl lg:text-5xl mb-12 text-near-black"
         >
-          <span className="text-crimson">Edu</span>cation
+          <span className="text-accent">Edu</span>cation
         </motion.h2>
 
         <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -33,8 +33,8 @@ export default function Education() {
             <div className="space-y-6">
               <div className="frame-card">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-full bg-crimson/10 flex items-center justify-center shrink-0">
-                    <GraduationCap size={20} className="text-crimson" />
+                  <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                    <GraduationCap size={20} className="text-accent" />
                   </div>
                   <div>
                     <h3 className="font-serif text-xl font-bold text-near-black">
@@ -54,8 +54,8 @@ export default function Education() {
                   className="frame-card"
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-crimson/10 flex items-center justify-center shrink-0">
-                      <Award size={20} className="text-crimson" />
+                    <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
+                      <Award size={20} className="text-accent" />
                     </div>
                     <div>
                       <h3 className="font-serif text-lg font-bold text-near-black">
@@ -75,7 +75,7 @@ export default function Education() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <div className="relative w-full aspect-[4/3] max-w-md mx-auto md:mx-0 rounded-2xl overflow-hidden">
-              <div className="absolute inset-0 border-2 border-crimson rounded-2xl translate-x-2 translate-y-2 z-10 pointer-events-none" />
+              <div className="absolute inset-0 border-2 border-accent rounded-2xl translate-x-2 translate-y-2 z-10 pointer-events-none" />
               <Image
                 src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=600&q=80"
                 alt="Academic setting"

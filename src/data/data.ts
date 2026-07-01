@@ -1,7 +1,7 @@
 export const personalInfo = {
   name: "Olanrewaju Lanlehin",
   role: "Project Manager",
-  email: "Justwaju@gmail.com",
+  email: "olanrewajulanlehin5@gmail.com",
   phone: "09065011800",
   roles: ["Project Manager", "Team Leader", "Event Strategist"],
 };
@@ -51,6 +51,11 @@ export const projects = [
 
 export const closingText =
   "Project Manager with a passion for delivering impactful and well-executed projects. Experienced in leading teams, managing events, and driving creative initiatives from concept to completion. Committed to excellence, collaboration, and continuous growth in every project delivered.";
+
+export const socialLinks = {
+  facebook: "https://www.facebook.com/share/1H7BLWFrzB/",
+  instagram: "https://www.instagram.com/waju_wears",
+};
 
 export const navLinks = [
   { label: "Home", href: "#hero" },

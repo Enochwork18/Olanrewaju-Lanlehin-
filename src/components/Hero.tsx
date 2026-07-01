@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowDown, Download, Mail } from "lucide-react";
+import { ArrowDown, Mail } from "lucide-react";
 import { personalInfo } from "@/data/data";
 import { useTypewriterSingle, useTypewriterRotator } from "@/hooks/useTypewriter";
 import DecorativeAccents from "./DecorativeAccents";
@@ -20,7 +20,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={ref}
-      className="relative min-h-screen flex items-center pt-16 px-4 md:px-8 lg:px-16 xl:px-24 overflow-hidden"
+      className="relative min-h-screen flex items-center pt-16 px-4 md:px-8 lg:px-16 xl:px-24 overflow-hidden scroll-mt-20"
     >
       <DecorativeAccents />
 
@@ -38,7 +38,7 @@ export default function Hero() {
             </span>
             <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight text-near-black absolute inset-0 whitespace-nowrap">
               {nameText}
-              <span className="text-crimson">.</span>
+              <span className="text-accent">.</span>
             </h1>
           </div>
 
@@ -48,12 +48,12 @@ export default function Hero() {
                 {personalInfo.roles[personalInfo.roles.length - 1]}
               </span>
             </span>
-            <p className="font-sans text-lg md:text-xl text-crimson font-medium absolute inset-0 whitespace-nowrap">
+            <p className="font-sans text-lg md:text-xl text-accent font-medium absolute inset-0 whitespace-nowrap">
               {roleText}
               <motion.span
                 animate={{ opacity: [1, 0] }}
                 transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-                className="inline-block w-[2px] h-5 bg-crimson ml-0.5 align-middle"
+                className="inline-block w-[2px] h-5 bg-accent ml-0.5 align-middle"
               />
             </p>
           </div>
@@ -67,26 +67,10 @@ export default function Hero() {
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-crimson text-white rounded-full font-medium text-sm hover:bg-crimson/90 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full font-medium text-sm hover:bg-accent/90 transition-colors"
             >
               <Mail size={16} />
               Contact Me
-            </motion.a>
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={(e) => {
-                e.preventDefault();
-                const link = document.createElement("a");
-                link.href = "/Olanrewaju_Lanlehin_CV.pdf";
-                link.download = "Olanrewaju_Lanlehin_CV.pdf";
-                link.click();
-              }}
-              className="inline-flex items-center gap-2 px-6 py-3 border-2 border-near-black text-near-black rounded-full font-medium text-sm hover:bg-near-black hover:text-white transition-colors"
-            >
-              <Download size={16} />
-              Download CV
             </motion.a>
           </div>
         </motion.div>
@@ -98,8 +82,8 @@ export default function Hero() {
           className="flex justify-center md:justify-end"
         >
           <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
-            <div className="absolute inset-0 rounded-full border-2 border-crimson -m-2" />
-            <div className="absolute inset-0 rounded-full border border-crimson/30 -m-4" />
+            <div className="absolute inset-0 rounded-full border-2 border-accent -m-2" />
+            <div className="absolute inset-0 rounded-full border border-accent/30 -m-4" />
             <Image
               src="/images/headshot-hero.jpg"
               alt={personalInfo.name}
@@ -113,8 +97,8 @@ export default function Hero() {
 
       <motion.div
         initial={{ opacity: 0 }}
-          animate={mounted ? { opacity: 1 } : {}}
-          transition={{ delay: 2.5 }}
+        animate={mounted ? { opacity: 1 } : {}}
+        transition={{ delay: 2.5 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2"
       >
         <motion.div
