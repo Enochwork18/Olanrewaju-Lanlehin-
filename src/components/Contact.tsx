@@ -4,19 +4,20 @@ import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { Mail, MessageCircle, Send, Loader2 } from "lucide-react";
+import emailjs from "@emailjs/browser";
 import { personalInfo, closingText, socialLinks } from "@/data/data";
 import DecorativeAccents from "./DecorativeAccents";
 
 interface FormFields {
-  name: string;
-  email: string;
+  from_name: string;
+  from_email: string;
   subject: string;
   message: string;
 }
 
 interface FormErrors {
-  name?: string;
-  email?: string;
+  from_name?: string;
+  from_email?: string;
   subject?: string;
   message?: string;
 }
@@ -44,22 +45,21 @@ export default function Contact() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   const [fields, setFields] = useState<FormFields>({
-    name: "",
-    email: "",
+    from_name: "",
+    from_email: "",
     subject: "",
     message: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<FormStatus>("idle");
-  const [errorMsg, setErrorMsg] = useState("");
 
   const validate = (): boolean => {
     const errs: FormErrors = {};
-    if (!fields.name.trim()) errs.name = "Name is required";
-    if (!fields.email.trim()) {
-      errs.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-      errs.email = "Please enter a valid email address";
+    if (!fields.from_name.trim()) errs.from_name = "Name is required";
+    if (!fields.from_email.trim()) {
+      errs.from_email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.from_email)) {
+      errs.from_email = "Please enter a valid email address";
     }
     if (!fields.subject.trim()) errs.subject = "Subject is required";
     if (!fields.message.trim()) errs.message = "Message is required";
@@ -78,23 +78,26 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
+
     setStatus("loading");
-    setErrorMsg("");
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fields),
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Something went wrong");
-      }
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: fields.from_name,
+          from_email: fields.from_email,
+          subject: fields.subject,
+          message: fields.message,
+          to_email: "olanrewajulanlehin5@gmail.com",
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
       setStatus("success");
     } catch (err) {
+      console.error("EmailJS error:", err);
       setStatus("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again or email directly at olanrewajulanlehin5@gmail.com");
     }
   };
 
@@ -120,11 +123,20 @@ export default function Contact() {
               <Send size={28} className="text-accent" />
             </div>
             <h3 className="font-serif text-2xl font-bold text-near-black mb-3">
-              Thanks {fields.name.split(" ")[0]}!
+              Thanks {fields.from_name.split(" ")[0]}!
             </h3>
             <p className="text-mid-grey text-base leading-relaxed">
               Your message has been sent! Olanrewaju will get back to you shortly.
             </p>
+            <button
+              onClick={() => {
+                setStatus("idle");
+                setFields({ from_name: "", from_email: "", subject: "", message: "" });
+              }}
+              className="mt-6 text-accent underline text-sm hover:text-accent/80 transition-colors"
+            >
+              Send another message
+            </button>
           </motion.div>
         </div>
         <div className="section-divider max-w-7xl mx-auto" />
@@ -151,7 +163,10 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             className="mb-6 p-4 rounded-xl bg-accent/10 border border-accent/30 text-accent text-sm"
           >
-            {errorMsg}
+            Something went wrong. Please try again or email directly at{" "}
+            <a href="mailto:olanrewajulanlehin5@gmail.com" className="underline">
+              olanrewajulanlehin5@gmail.com
+            </a>
           </motion.div>
         )}
 
@@ -232,30 +247,30 @@ export default function Contact() {
 
             <form onSubmit={handleSubmit} noValidate className="space-y-5">
               <div>
-                <label htmlFor="name" className="sr-only">Name</label>
+                <label htmlFor="from_name" className="sr-only">Name</label>
                 <input
-                  id="name"
-                  name="name"
+                  id="from_name"
+                  name="from_name"
                   type="text"
                   placeholder="Your Name *"
-                  value={fields.name}
+                  value={fields.from_name}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-xl bg-card-bg border border-accent/20 text-near-black placeholder-mid-grey focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors text-sm"
                 />
-                {errors.name && <p className="text-accent text-xs mt-1">{errors.name}</p>}
+                {errors.from_name && <p className="text-accent text-xs mt-1">{errors.from_name}</p>}
               </div>
               <div>
-                <label htmlFor="email" className="sr-only">Email</label>
+                <label htmlFor="from_email" className="sr-only">Email</label>
                 <input
-                  id="email"
-                  name="email"
+                  id="from_email"
+                  name="from_email"
                   type="email"
-                  placeholder="Your Email *"
-                  value={fields.email}
+                  placeholder="Your Email Address *"
+                  value={fields.from_email}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-xl bg-card-bg border border-accent/20 text-near-black placeholder-mid-grey focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors text-sm"
                 />
-                {errors.email && <p className="text-accent text-xs mt-1">{errors.email}</p>}
+                {errors.from_email && <p className="text-accent text-xs mt-1">{errors.from_email}</p>}
               </div>
               <div>
                 <label htmlFor="subject" className="sr-only">Subject</label>
@@ -275,11 +290,11 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
-                  rows={4}
+                  rows={5}
                   placeholder="Your Message *"
                   value={fields.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl bg-card-bg border border-accent/20 text-near-black placeholder-mid-grey focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors text-sm resize-y"
+                  className="w-full px-4 py-3 rounded-xl bg-card-bg border border-accent/20 text-near-black placeholder-mid-grey focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors text-sm resize-none"
                 />
                 {errors.message && <p className="text-accent text-xs mt-1">{errors.message}</p>}
               </div>
@@ -288,7 +303,7 @@ export default function Contact() {
                 disabled={status === "loading"}
                 whileHover={status === "loading" ? {} : { scale: 1.05 }}
                 whileTap={status === "loading" ? {} : { scale: 0.95 }}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-full font-medium text-sm hover:bg-accent/90 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white rounded-full font-medium text-sm hover:bg-accent/90 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {status === "loading" ? (
                   <>

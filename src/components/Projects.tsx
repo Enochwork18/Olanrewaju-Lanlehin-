@@ -7,6 +7,21 @@ import { FolderOpen } from "lucide-react";
 import { projects } from "@/data/data";
 import DecorativeAccents from "./DecorativeAccents";
 
+const creativesPhotos = [
+  "/images/creatives-conf-2025-1.jpg",
+  "/images/creatives-conf-2025-2.jpg",
+  "/images/creatives-conf-2025-3.jpg",
+  "/images/creatives-conf-2026-1.jpg",
+  "/images/creatives-conf-2026-2.jpg",
+  "/images/creatives-conf-2026-3.jpg",
+];
+
+const projectBadges = [
+  "Event Management",
+  "100+ Attendees",
+  "2024–2026",
+];
+
 export default function Projects() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -39,6 +54,17 @@ export default function Projects() {
                 whileHover={{ y: -4, boxShadow: "0 12px 40px rgba(0,0,0,0.08)" }}
                 className="frame-card transition-shadow"
               >
+                <div className="flex gap-2 flex-wrap mb-3">
+                  {projectBadges.map((badge) => (
+                    <span
+                      key={badge}
+                      className="text-xs bg-accent/10 text-accent px-3 py-1 rounded-full font-medium"
+                    >
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+
                 <div className="flex items-center gap-2 mb-3">
                   <FolderOpen size={18} className="text-accent" />
                   <span className="text-accent text-xs font-semibold uppercase tracking-wider">
@@ -51,6 +77,30 @@ export default function Projects() {
                 <p className="text-mid-grey text-sm leading-relaxed">
                   {project.description}
                 </p>
+
+                <div className="mt-4 space-y-2">
+                  <div className="flex gap-2 flex-wrap">
+                    <span className="text-xs bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">
+                      2025 Edition
+                    </span>
+                    <span className="text-xs bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">
+                      2026 Edition
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2 rounded-xl overflow-hidden">
+                    {creativesPhotos.map((src, idx) => (
+                      <div key={idx} className="relative aspect-[4/3] overflow-hidden rounded-lg">
+                        <Image
+                          src={src}
+                          alt={`Creatives Conference event photo ${idx + 1}`}
+                          fill
+                          className="object-cover hover:scale-105 transition-transform duration-500"
+                          sizes="(max-width: 768px) 50vw, 33vw"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
             ))}
           </motion.div>
